@@ -1,0 +1,47 @@
+<div class="content" role="main">
+  <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+    <input placeholder="Add New Task" formControlName="newTask" />
+    <input placeholder="Add Task description" formControlName="taskDesc" />
+    <button type="submit">Submit</button>
+  </form>
+</div>
+<table class="table" *ngIf="tasks.length > 0">
+  <thead>
+    <tr>
+      <th scope="col" style="text-align: center">Task ID</th>
+      <th scope="col" style="text-align: center">Task Title</th>
+      <th scope="col" style="text-align: center">Task Description</th>
+      <th scope="col" style="text-align: center">Created at</th>
+      <th scope="col" style="text-align: center">Task Status</th>
+      <th scope="col" style="text-align: center">Check Status</th>
+      <th scope="col" style="text-align: center">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of tasks">
+      <td style="text-align: center">{{ task.id }}</td>
+      <td style="text-align: center">{{ task.task }}</td>
+      <td style="text-align: center">{{ task.description }}</td>
+      <td style="text-align: center">{{ task.createdAt | date:'short' }}</td>
+      <td style="text-align: center">
+        {{ task.completed ? "Completed" : "Pending" }}
+      </td>
+      <td style="text-align: center">
+        <input
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="onTaskStatusChange(task)"
+        />
+      </td>
+      <td style="text-align: center">
+        <button type="button" class="btn btn-primary">
+          Edit
+        </button>
+        <button type="button" class="btn btn-danger" (click)="delete(task.id)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<router-outlet />
